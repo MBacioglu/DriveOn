@@ -9,7 +9,7 @@ class MainMenuScene extends Phaser.Scene {
     }
 
     create() {
-        this.add.text(400, 300, 'Press SPACE to Start', { fontSize: '32px', fill: '#FFF' }).setOrigin(0.5);
+        this.add.text(400, 300, 'Press SPACE to Start', { fontSize: '32px', fill: '#0000FF' }).setOrigin(0.5); // Blue text color
         this.input.keyboard.on('keydown-SPACE', () => {
             this.scene.start('GameScene');
         });
@@ -60,12 +60,13 @@ class GameScene extends Phaser.Scene {
 
         if (this.cursors.up.isDown) {
             this.physics.velocityFromRotation(this.car.rotation, 200, this.car.body.velocity);
+        } else if (this.cursors.down.isDown) {
+            this.physics.velocityFromRotation(this.car.rotation, -100, this.car.body.velocity); // Achteruit met halve snelheid
         } else {
             this.car.setVelocity(0);
         }
     }
 }
-
 
 // Pause Menu Scene
 class PauseMenuScene extends Phaser.Scene {
@@ -74,7 +75,7 @@ class PauseMenuScene extends Phaser.Scene {
     }
 
     create() {
-        this.add.text(400, 300, 'Paused\nPress R to Resume', { fontSize: '32px', fill: '#FFF', align: 'center' }).setOrigin(0.5);
+        this.add.text(400, 300, 'Paused\nPress R to Resume', { fontSize: '32px', fill: '#0000FF', align: 'center' }).setOrigin(0.5); // Blue text color
         this.input.keyboard.on('keydown-R', () => {
             this.scene.stop();
             this.scene.resume('GameScene');
@@ -85,7 +86,7 @@ class PauseMenuScene extends Phaser.Scene {
 // Game configuration
 const config = {
     type: Phaser.AUTO,
-    width: 900,
+    width: 800,
     height: 600,
     parent: 'game-container',
     scene: [MainMenuScene, GameScene, PauseMenuScene],
@@ -97,7 +98,6 @@ const config = {
         }
     }
 };
-
 
 // Initialize Phaser game
 const game = new Phaser.Game(config);
